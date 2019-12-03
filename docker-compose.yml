@@ -1,0 +1,90 @@
+version: "3"
+
+services:
+  redis_cache_service:
+    container_name: redis_cache_service
+    image: redis:alpine
+    networks:
+      - dockernet
+    volumes:
+      - rediscache:/data
+
+  mysql_db_service:
+    container_name: mysql_db_service
+    environment:
+      - MYSQL_DATABASE=$MYSQL_DATABASE
+      - MYSQL_USERNAME=$MYSQL_USERNAME
+      - MYSQL_PASSWORD=$MYSQL_PASSWORD
+      - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
+    image: mysql:5.7
+    networks:
+      - dockernet
+    ports:
+      - $MYSQL_PORT:$MYSQL_PORT
+    volumes:
+      - mysqldb:/var/lib/mysql
+
+  nginx_service:
+    build: ./docker/nginx_service
+    container_name: nginx_service
+    depends_on:
+      - fe_express_service
+      - be_express_service
+    environment:
+      - SERVER_NAME=$SERVER_NAME
+      - FE_EXPRESS_PORT=$FE_EXPRESS_PORT
+      - BE_EXPRESS_PORT=$BE_EXPRESS_PORT
+    image: nginx_service
+    networks:
+      - dockernet
+    ports:
+      - $NGINX_PORT:$NGINX_PORT
+    volumes:
+      - $NGINX_CODEBASE_DIR:/var/www/html
+      - $NGINX_CONF:/etc/nginx/conf.d/
+    working_dir: /var/www/html
+
+  fe_express_service:
+    build: ./docker/fe_express_service
+    container_name: fe_express_service
+    command: yarn start
+    environment:
+      - NODE_ENV=development
+      - PORT=$FE_EXPRESS_PORT
+    image: fe_express_service
+    networks:
+      - dockernet
+    volumes:
+      - $FE_EXPRESS_CODEBASE_DIR:/data/src
+    ports:
+      - $FE_EXPRESS_PORT:$FE_EXPRESS_PORT
+
+  be_express_service:
+    build: ./docker/be_express_service
+    container_name: be_express_service
+    command: yarn start
+    environment:
+      - MYSQL_DATABASE=$MYSQL_DATABASE
+      - MYSQL_HOST=db
+      - MYSQL_PASSWORD=$MYSQL_PASSWORD
+      - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
+      - MYSQL_USERNAME=$MYSQL_USERNAME
+      - NODE_ENV=development
+      - PORT=$BE_EXPRESS_PORT
+    image: be_express_service
+    networks:
+      - dockernet
+    volumes:
+      - $BE_EXPRESS_CODEBASE_DIR:/data/src
+    ports:
+      - $BE_EXPRESS_PORT:$BE_EXPRESS_PORT
+
+networks:
+  dockernet:
+    driver: bridge
+
+volumes:
+  rediscache:
+    driver: local
+  mysqldb:
+    driver: local

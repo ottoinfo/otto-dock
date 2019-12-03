@@ -1,0 +1,9 @@
+{
+  "development": {
+    "username": "root",
+    "password": "secret",
+    "database": "ottoinfo",
+    "host": "192.168.99.102",
+    "dialect": "mysql"
+  }
+}

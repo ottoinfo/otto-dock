@@ -1,0 +1,49 @@
+[ignore]
+.*/.next.*
+.*/node_modules/babel.*
+.*/node_modules/config-chain/test/broken.json
+.*/node_modules/eslint-plugin.*
+.*/node_modules/graphviz/*
+.*/node_modules/jsonlint/.*
+.*/node_modules/mitt.*
+.*/node_modules/npmconf/test/.*
+.*/node_modules/polished/lib/color.*
+.*/node_modules/polished/lib/helpers.*
+.*/node_modules/polished/lib/index.js.flow
+.*/node_modules/polished/lib/internal.*
+.*/node_modules/polished/lib/short.*
+.*/node_modules/styled-components/src.*
+.*.spec.js
+.*/lib/polyfills/.*
+
+[include]
+
+[libs]
+flow-typed
+
+[options]
+module.name_mapper='^actions\(\/?.*\)$' -> '<PROJECT_ROOT>/actions/\1'
+module.name_mapper='^apis\(\/?.*\)$' -> '<PROJECT_ROOT>/apis/\1'
+module.name_mapper='^apps\(\/?.*\)$' -> '<PROJECT_ROOT>/apps/\1'
+module.name_mapper='^components\(\/?.*\)$' -> '<PROJECT_ROOT>/components/\1'
+module.name_mapper='^containers\(\/?.*\)$' -> '<PROJECT_ROOT>/containers/\1'
+module.name_mapper='^epics\(\/?.*\)$' -> '<PROJECT_ROOT>/epics/\1'
+module.name_mapper='^flags$' -> '<PROJECT_ROOT>/flags'
+module.name_mapper='^lib\(\/?.*\)$' -> '<PROJECT_ROOT>/lib/\1'
+module.name_mapper='^middleware\(\/?.*\)$' -> '<PROJECT_ROOT>/middleware/\1'
+module.name_mapper='^reducers\(\/?.*\)$' -> '<PROJECT_ROOT>/reducers/\1'
+module.name_mapper='^routes\(\/?.*\)$' -> '<PROJECT_ROOT>/routes/\1'
+module.name_mapper='^selectors\(\/?.*\)$' -> '<PROJECT_ROOT>/selectors/\1'
+module.name_mapper='^specs\(\/?.*\)$' -> '<PROJECT_ROOT>/specs/\1'
+module.name_mapper='^sprites\(\/?.*\)$' -> '<PROJECT_ROOT>/sprites/\1'
+module.name_mapper='^static\(\/?.*\)$' -> '<PROJECT_ROOT>/static/\1'
+module.name_mapper='^stub\(\/?.*\)$' -> '<PROJECT_ROOT>/stub/\1'
+module.name_mapper='^styles\(\/?.*\)$' -> '<PROJECT_ROOT>/styles/\1'
+module.name_mapper='^svg\(\/?.*\)$' -> '<PROJECT_ROOT>/svg/\1'
+module.name_mapper='^types\(\/?.*\)$' -> '<PROJECT_ROOT>/types/\1'
+
+suppress_comment= \\(.\\|\n\\)*\\$FlowBug
+
+[lints]
+
+[version]

@@ -1,0 +1,62 @@
+{
+  "plugins": ["@babel/plugin-transform-flow-strip-types"],
+  "env": {
+    "production": {
+      "presets": ["next/babel"],
+      "plugins": [
+        [
+          "styled-components",
+          {
+            "ssr": true,
+            "displayName": false,
+            "minify": true
+          }
+        ]
+      ]
+    },
+    "development": {
+      "presets": ["next/babel"],
+      "plugins": ["@babel/plugin-syntax-throw-expressions"]
+    },
+    "qa": {
+      "presets": ["next/babel"]
+    },
+    "test": {
+      "plugins": [
+        "@babel/plugin-syntax-dynamic-import",
+        "@babel/plugin-proposal-class-properties"
+      ],
+      "presets": [
+        "@babel/preset-react",
+        "@babel/preset-flow",
+        [
+          "@babel/preset-env",
+          {
+            "targets": {
+              "node": "current"
+            }
+          }
+        ]
+      ]
+    }
+  },
+  "overrides": [
+    {
+      "test": "./middleware",
+      "presets": [
+        [
+          "next/babel",
+          {
+            "@babel/preset-env": {
+              "useBuiltIns": "usage",
+              "modules": "commonjs",
+              "targets": { "node": "10.11.0" },
+              "loose": true,
+              "corejs": 3
+            }
+          }
+        ]
+      ]
+    }
+  ]
+}
